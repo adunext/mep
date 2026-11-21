@@ -5,9 +5,13 @@
 <h1 align="center">MEP · Motion Edit Protocol</h1>
 
 <p align="center">
-  由 <a href="https://adudir.com"><b>阿杜导演</b></a> 发起的开放 AI 软件协作协议<br>
-  An open AI–software collaboration protocol initiated by <a href="https://adudir.com"><b>ADuDir</b></a><br>
-  官网 Website：<a href="https://adudir.com">adudir.com</a>
+  由 <b>阿杜实验室</b> 发起的开放 AI 软件协作协议<br>
+  An open AI–software collaboration protocol initiated by <b>ADu Labs</b>
+</p>
+
+<p align="center">
+  <b>首批参与项目 / Early participants</b><br>
+  <a href="https://adudir.com">阿杜导演 · ADuDir</a>（视频剪辑 / Video editing）
 </p>
 
 ---
