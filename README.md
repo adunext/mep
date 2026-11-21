@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://adudir.com"><img src="assets/adudir-logo.png" width="128" alt="阿杜导演 ADuDir"></a>
+  <img src="assets/mep-logo.svg" width="112" alt="MEP · Motion Edit Protocol">
 </p>
 
 <h1 align="center">MEP · Motion Edit Protocol</h1>
