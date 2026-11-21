@@ -14,7 +14,7 @@
 
 ## 中文
 
-**MEP（Motion 剪辑协议）是让任何 AI 助手直接剪片子的开放协议。**
+**MEP（Motion 剪辑协议）是让 AI 助手与软件直接协作的开放协议，从视频剪辑开始。**
 剪辑软件把工程开放成一个文件夹，助手读文件了解工程、写文件提交修改，软件校验后执行并写回执。
 
 > MCP 给助手接一根线，MEP 给助手一张工作台。
@@ -24,16 +24,29 @@
 - 每单带版本号，不覆盖用户的新修改；每单有回执，可整单撤销。
 - 助手可以请软件把成片某几秒画出来，自己检查后再交差。
 
+### 不只是剪辑：给 AI 时代的软件一张工作台
+
+**视频剪辑是 MEP 的第一个应用场景，不是这个协作模式的边界。** 只要一款软件能把当前工作状态表示成结构化数据，并把常用操作定义成可校验的命令，理论上都能沿用 MEP 的模式，让 AI 不再靠猜界面、点按钮来干活。人给目标，AI 拆成步骤，软件按自己的规则执行，结果再交回给 AI 和用户核对。
+
+| 软件 | 可以怎样协作 |
+|---|---|
+| 设计工具 | 读画板和组件，批量换文案、改主题色，再核对预览。 |
+| 音频工作站 | 读音轨和时间标记，调整片段或轨道增益，再回听检查。 |
+| 表格与数据工具 | 读取列结构和校验规则，提交批量清洗或更新，查看受影响的行与失败原因。 |
+
+效率提升来自**减少重复操作，以及减少 AI 为理解界面而反复截图、试点和确认的往返**。一条指令可以对应一批操作，应用仍然掌管权限、数据和执行规则。MEP 1 当前规范化的是视频编辑相关操作；上面的例子是扩展方向，不是现有兼容性声明。其他领域仍需定义自己的状态、命令和结果。
+
 ### 一分钟看懂
 
-```
-用户在剪辑软件里点「复制命令」 ──► 把那句话贴给助手
-                                        │
-            ┌───────────────────────────┘
-            ▼
-   助手读 README.md、project.json
-   助手写 requests/r-01.json  ──►  软件核对口令与版本、执行
-                                   软件写 results/r-01.json  ──► 助手读回执，继续下一单
+```mermaid
+flowchart TD
+    U["用户授权协作 · 将命令交给 AI"] --> A["AI 读取说明和最新工程状态"]
+    A -->|"提交结构化请求 requests/id.json"| V{"软件校验口令和权限<br/>写入操作还要核对工程版本"}
+    V -->|"通过"| E["软件执行 · 写入回执"]
+    V -->|"拒绝"| F["不执行 · 写明原因和下一步"]
+    E --> R["AI 读取 results/id.json · 核对结果"]
+    F --> R
+    R -.->|"需要下一步时先重读状态"| A
 ```
 
 一个请求：
@@ -80,7 +93,7 @@
 
 ## English
 
-**MEP (Motion Edit Protocol) is an open protocol that lets any AI assistant edit video directly.**
+**MEP (Motion Edit Protocol) is an open protocol for direct collaboration between AI assistants and software, starting with video editing.**
 The editor opens a project as a folder. The assistant reads files to understand the project and writes files to submit changes. The editor validates and executes each change, then writes back a result.
 
 > MCP gives the assistant a cable. MEP gives it a workbench.
@@ -90,16 +103,29 @@ The editor opens a project as a folder. The assistant reads files to understand 
 - Every request carries the project version it was written against, so it never overwrites the user's newer edits. Every request gets a result and can be undone in one step.
 - The assistant can ask the editor to render any moment of the final video and check its own work before handing it over.
 
+### Beyond video: a workbench for AI-era software
+
+**Video editing is MEP's first use case, not the limit of the collaboration model.** Any application that can expose its working state as structured data and define actions it can validate can, in principle, adopt this pattern. The user sets the goal, the assistant turns it into concrete steps, and the app executes them under its own rules and returns a result both can verify.
+
+| Application | Example workflow |
+|---|---|
+| Design tools | Read artboards and components, replace copy or theme colors in bulk, then check the preview. |
+| Digital audio workstations | Read tracks and time markers, adjust clips or track gain, then play back the result. |
+| Spreadsheets and data tools | Read column definitions and validation rules, submit a batch cleanup or update, then inspect affected rows and any failures. |
+
+The efficiency gain comes from **batching repeatable work and reducing the back-and-forth of interpreting screens, clicking controls, and checking what happened**. The app still owns permissions, data, and execution rules. MEP 1 currently specifies video-editing operations. The examples above are extension directions, not claims of existing compatibility. Other domains still need to define their own state, commands, and results.
+
 ### One-minute overview
 
-```
-User clicks "Copy command" in the editor ──► pastes that sentence into the assistant
-                                                   │
-             ┌─────────────────────────────────────┘
-             ▼
-   Assistant reads README.md and project.json
-   Assistant writes requests/r-01.json ──► Editor checks key and version, executes
-                                           Editor writes results/r-01.json ──► Assistant reads it, goes on
+```mermaid
+flowchart TD
+    U["User authorizes collaboration and hands off the command"] --> A["AI reads the guide and latest project state"]
+    A -->|"Submit a structured request: requests/id.json"| V{"App checks the key and permissions<br/>Edits also check the project revision"}
+    V -->|"Pass"| E["App executes and writes a result"]
+    V -->|"Reject"| F["App does not execute and explains what to do next"]
+    E --> R["AI reads results/id.json and verifies the outcome"]
+    F --> R
+    R -.->|"Read fresh state before the next step"| A
 ```
 
 A request:
