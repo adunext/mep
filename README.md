@@ -5,12 +5,32 @@
 <h1 align="center">MEP · Motion Edit Protocol</h1>
 
 <p align="center">
-  由 <a href="https://adudir.com"><b>阿杜导演</b></a> 提出并实现的开放剪辑协议<br>
-  An open editing protocol proposed and implemented by <a href="https://adudir.com"><b>ADuDir</b></a><br>
+  由 <a href="https://adudir.com"><b>阿杜导演</b></a> 发起的开放 AI 软件协作协议<br>
+  An open AI–software collaboration protocol initiated by <a href="https://adudir.com"><b>ADuDir</b></a><br>
   官网 Website：<a href="https://adudir.com">adudir.com</a>
 </p>
 
 ---
+
+## 协议架构 / Protocol architecture
+
+| 层 / Layer | 规范与代码 / Specification and code | 状态 / Status |
+|---|---|---|
+| **通用核心 / Core** | [MEP Core 1](CORE.md) · [JSON Schema](schema/core.schema.json) | 公开草案 / Public draft |
+| **领域规范 / Domains** | [视频剪辑 / Video](SPEC.md) · [English spec](SPEC.en.md) | `mep/1` 1.0 正式版，保持兼容 / stable and unchanged |
+| **跨领域接入示例 / Cross-domain example** | [可运行的表格示例 / Runnable table example](examples/core-table/README.md) | 示例，非第三方集成 / Example, not a third-party integration |
+
+```mermaid
+flowchart TD
+    U["人授权 · User grants scope"] --> H["AI 助手 · AI assistant"]
+    H <-->|"状态、动作、回执 / State, actions, receipts"| C["MEP Core · 通用协作层"]
+    C -.->|"首个领域，原接口独立 / Original binding retained"| V["视频剪辑 · Video"]
+    C --> T["表格 · Table example"]
+    C -.-> D["设计、音频、其他软件 · Other domains"]
+```
+
+Core 统一协作规则，各领域独立定义动作。原视频接口不变。  
+Core standardizes collaboration; each domain defines its actions. The original video interface is unchanged.
 
 ## 中文
 
@@ -34,9 +54,9 @@
 | 音频工作站 | 读音轨和时间标记，调整片段或轨道增益，再回听检查。 |
 | 表格与数据工具 | 读取列结构和校验规则，提交批量清洗或更新，查看受影响的行与失败原因。 |
 
-效率提升来自**减少重复操作，以及减少 AI 为理解界面而反复截图、试点和确认的往返**。一条指令可以对应一批操作，应用仍然掌管权限、数据和执行规则。MEP 1 当前规范化的是视频编辑相关操作；上面的例子是扩展方向，不是现有兼容性声明。其他领域仍需定义自己的状态、命令和结果。
+效率提升来自**减少重复操作，以及减少 AI 为理解界面而反复截图、试点和确认的往返**。一条指令可以对应一批操作，应用仍然掌管权限、数据和执行规则。[MEP Core 1](CORE.md) 定义了跨软件通用的协作规则；视频是已发布的领域绑定，表格有可运行的参考示例，其他领域仍需各自定义状态、命令和结果。
 
-### 一分钟看懂
+### 一分钟看懂视频剪辑的协作流程
 
 ```mermaid
 flowchart TD
@@ -78,7 +98,7 @@ flowchart TD
 | [reference/submit.mjs](reference/submit.mjs) | 参考提交脚本（Node.js，无依赖） |
 | [docs/why-mep.md](docs/why-mep.md) | MEP 与 MCP、Computer Use 的对比和设计理由 |
 
-### 实现
+### 视频剪辑参考实现
 
 - **宿主（剪辑软件）**：按 [SPEC.md §15](SPEC.md#15-一致性要求) 的最低要求实现协作目录、单据、心跳、请求校验与回执。
 - **助手**：读协作目录里的 `README.md`，按 `mep.json` 写请求即可，不需要任何 SDK。
@@ -87,7 +107,7 @@ flowchart TD
 
 ### 许可
 
-[Apache License 2.0](LICENSE)。任何剪辑软件、任何助手都可以实现 MEP，无需另行授权。
+[Apache License 2.0](LICENSE)。任何软件、任何助手都可以实现 MEP，无需另行授权。
 
 ---
 
@@ -113,9 +133,9 @@ The editor opens a project as a folder. The assistant reads files to understand 
 | Digital audio workstations | Read tracks and time markers, adjust clips or track gain, then play back the result. |
 | Spreadsheets and data tools | Read column definitions and validation rules, submit a batch cleanup or update, then inspect affected rows and any failures. |
 
-The efficiency gain comes from **batching repeatable work and reducing the back-and-forth of interpreting screens, clicking controls, and checking what happened**. The app still owns permissions, data, and execution rules. MEP 1 currently specifies video-editing operations. The examples above are extension directions, not claims of existing compatibility. Other domains still need to define their own state, commands, and results.
+The efficiency gain comes from **batching repeatable work and reducing the back-and-forth of interpreting screens, clicking controls, and checking what happened**. The app still owns permissions, data, and execution rules. [MEP Core 1](CORE.md) defines the shared rules. Video remains the published domain binding; the table example is runnable, and other domains still need to define their own state, commands, and results.
 
-### One-minute overview
+### One-minute overview of the video workflow
 
 ```mermaid
 flowchart TD
@@ -157,7 +177,7 @@ A result:
 | [reference/submit.mjs](reference/submit.mjs) | Reference submit script (Node.js, no dependencies) |
 | [docs/why-mep.en.md](docs/why-mep.en.md) | MEP compared with MCP and Computer Use, and the design rationale |
 
-### Implementing MEP
+### Video editing reference implementation
 
 - **Host (the editor):** implement the collaboration folder, orders, heartbeat, request validation and results, as listed in the minimum requirements of [SPEC.en.md §15](SPEC.en.md#15-conformance).
 - **Assistant:** read the `README.md` in the collaboration folder and write requests as `mep.json` describes. No SDK needed.
@@ -166,4 +186,4 @@ Reference implementation: [ADuDir](https://adudir.com) desktop, version 1.3.5 an
 
 ### License
 
-[Apache License 2.0](LICENSE). Any editor and any assistant may implement MEP without further permission.
+[Apache License 2.0](LICENSE). Any application and any assistant may implement MEP without further permission.
