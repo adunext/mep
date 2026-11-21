@@ -1,10 +1,10 @@
-# MEP: an open protocol that lets any AI assistant edit video
+# MEP: why AI assistants need a software workbench
 
-**MEP (Motion Edit Protocol)** is an open protocol proposed by ADuDir (阿杜导演), which is also its reference implementation. The editor opens a project as a folder; the AI assistant reads files to understand the project and writes files to submit changes; the editor validates them, executes them and writes back a result.
+**MEP (Motion Edit Protocol)** is an open AI–software collaboration protocol initiated by ADu Labs. ADuDir is an early participant and the reference implementation for the MEP 1 video-editing specification. Video editing is the first use case; [MEP Core](../CORE.md) defines the shared rules for authorization, state, actions, and receipts.
 
 In one line: **MCP gives the assistant a cable. MEP gives it a workbench.**
 
-We are confident MEP will become the industry protocol standard for editing software in the AI era. This document explains what it is, how it differs from MCP and Computer Use, and why it is the right design.
+This guide uses video editing as an example. The app opens a collaboration folder; the assistant reads state and submits changes; the app validates and executes them, then returns a receipt. The example also shows how MEP differs from MCP and Computer Use.
 
 Chinese version: [why-mep.md](why-mep.md).
 
